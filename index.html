@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <title>Chat App</title>
+  <script defer src="http://localhost:3000/socket.io/socket.io.js"></script>
+  <script defer src="script.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+
+    * {
+      /* margin: 0;
+      padding: 0;
+      box-sizing: border-box; */
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Open Sans', sans-serif;
+      display: grid;
+      place-items: center;
+      background-color: #ddcccc;
+      border-radius: 80%;
+      border-color: #8d8d8f;
+    }
+
+    .title {
+      margin: 20px 0;
+    }
+
+    #message-container {
+  display: flex;
+  flex-direction: column;
+  background-color: #f6f6f6;
+  width: 500px;
+  height: 600px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.message {
+  display: inline-block;
+  position:fixed;
+  padding: 10px 15px;
+  border-radius: 20px;
+  font-size: 14px;
+  max-width: 90%;
+  margin: 5px 0;
+  word-wrap: break-word;
+  margin-bottom: 5px;
+  gap: 12px;
+}
+
+.message-left {
+  background-color: #8d8d8f;
+  align-self: flex-start;
+  background-color: rgb(200, 184, 184);
+  color: rgb(22, 22, 22);
+  border-radius: 20px 20px 20px 0px;
+  box-shadow: -2px 2px 4px #dcdcdc;
+}
+
+.message-right {
+  background-color: #24b6eb;
+  align-self: flex-end;
+  border-radius: 20px 20px 0px 20px;
+  align-self: flex-end;
+
+  box-shadow: 2px 0px 4px #dcdcdc;
+  color: #f6f6f6;
+}
+
+.message-left > p > span,
+.message-right > p > span {
+  display: block;
+  font-style: italic;
+  font-size: 12px;
+  margin-top: 14px;
+}
+    #send-container {
+      position: fixed;
+      bottom: 0;
+      background-color: #b3a7a7;
+      max-width: 500px;
+      display: flex;
+      align-items: center;
+      border-top: 1px solid #060505;
+      box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .message-input {
+      flex-grow: 1;
+      height: 50px;
+      font-size: 16px;
+      border: 1px solid #030303;
+      border-radius: 8px;
+      padding: 0 12px;
+      outline: none;
+      width: 70%;
+      background-color: #fefffc;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    #file-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #4CAF50;
+      color: #fff;
+      width: 48px;
+      height: 48px;
+      margin-left: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    #file-label:hover {
+      background-color: #45a049;
+    }
+
+    #file-label:active {
+      background-color: #3e8e41;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+    }
+
+    .send-button {
+      height: 48px;
+      font-size: 16px;
+      border: none;
+      padding: 0 20px;
+      margin-left: 10px;
+      border-radius: 8px;
+      outline: none;
+      background-color: #4CAF50;
+      color: #050505;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .send-button:hover {
+      background-color: #45a049;
+    }
+
+    .send-button:active {
+      background-color: #3e8e41;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+    }
+
+    #message-container {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin-top: 10px;
+      box-sizing: border-box;
+      height: calc(100vh - 80px); /* Adjust height */
+    }
+  </style>
+</head>
+<body>
+  <h1 class="title">iChat 💬</h1>
+  <div id="message-container"></div>
+  
+  <form id="send-container">
+    <input type="text" id="message-input" class="message-input" placeholder="Type your message..." />
+    <input type="file" id="file-input" style="display: none;" />
+    <label for="file-input" id="file-label">
+      <span><i class="fas fa-paperclip"></i></span>
+    </label>
+    <button type="submit" id="send-button">
+      <i class="fas fa-paper-plane"></i>
+    </button>
+  </form>
+</body>
+</html>
